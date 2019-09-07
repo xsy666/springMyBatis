@@ -1,0 +1,1 @@
+2019-8-29 09:15:26[ERROR](AroundLogger.java:32) addUser 方法发生异常：org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.reflection.ReflectionException: There is no getter for property named 'user' in 'class com.bdqn.pojo.User'

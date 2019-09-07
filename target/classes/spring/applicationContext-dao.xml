@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+      http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
+    <import resource="classpath:spring/applicationContext-service.xml"/>
+    <!--*****************************配置DAO****************************************-->
+   <!-- <context:component-scan base-package="com.bdqn.dao"/>-->
+    <!--*****************************配置SqlSessionTemplate作为Bean组件****************************************-->
+    <!-- <bean class="org.mybatis.spring.SqlSessionTemplate" id="sqlSessionTemplate">
+         <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
+     </bean>-->
+    <!--*****************************配置MapperFactoryBean作为Bean组件****************************************-->
+    <!--<bean class="org.mybatis.spring.mapper.MapperFactoryBean" id="userMapper">
+        <property name="mapperInterface" value="com.bdqn.dao.UserMapper"/>
+        <property name="sqlSessionFactory" ref="sqlSessionFactory"/>
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"/>
+    </bean>
+    <bean class="org.mybatis.spring.mapper.MapperFactoryBean" id="roleMapper">
+        <property name="mapperInterface" value="com.bdqn.dao.RoleMapper"/>
+        <property name="sqlSessionTemplate" ref="sqlSessionTemplate"/>
+    </bean>-->
+    <!--*****************************配置MapperScannerConfigurer作为Bean组件****************************************-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.bdqn.dao"/>
+    </bean>
+</beans>

@@ -1,0 +1,8 @@
+2019-8-28 11:33:11[ERROR](AroundLogger.java:32) findUserCount 方法发生异常：org.apache.ibatis.binding.BindingException: Invalid bound statement (not found): com.bdqn.dao.UserMapper.selectCount
+2019-8-28 12:32:01[ERROR](AroundLogger.java:32) findUserByUserRoleArray 方法发生异常：org.mybatis.spring.MyBatisSystemException: nested exception is org.apache.ibatis.exceptions.PersistenceException: 
+### Error querying database.  Cause: java.lang.IllegalArgumentException: Result Maps collection does not contain value for com.bdqn.dao.UserMapper.roleList
+### The error may exist in file [D:\classtwoworkspace\springMyBatis\target\classes\mapper\UserMapper.xml]
+### The error may involve com.bdqn.dao.UserMapper.selectUserByUserRoleArray
+### The error occurred while handling results
+### SQL: SELECT `u`.*,`r`.`id` as `role_id`,`r`.`roleName`,`r`.`roleCode` FROM `smbms_user` AS `u`         INNER JOIN `smbms_role` AS `r` ON `u`.userRole = `r`.`id`         WHERE `userRole` IN          (               ?          ,              ?          )
+### Cause: java.lang.IllegalArgumentException: Result Maps collection does not contain value for com.bdqn.dao.UserMapper.roleList

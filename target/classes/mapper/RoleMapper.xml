@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.bdqn.dao.RoleMapper">
+    <sql id="Base_Column_List" >
+    id, roleCode, roleName, createdBy, creationDate, modifyBy, modifyDate
+  </sql>
+
+    <!-- 查询角色表记录数 -->
+    <select id="selectCount" resultType="int">
+		select count(1) as count from `smbms_role`
+	</select>
+    <!-- 查询角色的全部信息 -->
+    <select id="selectRoles" resultType="Role">
+		select
+		<include refid="Base_Column_List"></include>
+		 from `smbms_role`
+	</select>
+</mapper>
