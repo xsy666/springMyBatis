@@ -292,5 +292,27 @@ public class UserController {
             return "user/usermodify";
         }
     }
+
+    /**
+     * description: TODO 处理删除用户
+     * create time: 2019/9/8 22:47
+     * [userId]
+     * @return java.lang.Object
+     */
+    @GetMapping(value = "/delUser/{userid}")
+    @ResponseBody
+    public Object delUser(@PathVariable(value = "userid") Integer userId) throws BusinessException {
+
+        int result = 0;
+        User user=userService.findUserById(userId);
+        if (user!=null){
+            //调取删除用户的相关业务
+            result= userService.delUserById(userId);
+            return CommonReturnType.create(result);
+        }else {
+            return CommonReturnType.create("notexist","fail");
+        }
+
+    }
 }
 

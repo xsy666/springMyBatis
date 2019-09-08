@@ -4,18 +4,19 @@ var userObj;
 function deleteUser(obj) {
     $.ajax({
         type: "GET",
-        url: path + "/jsp/user.do",
-        data: {method: "deluser", uid: obj.attr("userid")},
+        // url: path + "/jsp/user.do",
+        url: "/ssm/user/delUser/"+obj.attr("userid"),
         dataType: "json",
         success: function (data) {
-            if (data.delResult == "true") {//删除成功：移除删除行
-                cancleBtn();
-                obj.parents("tr").remove();
-            } else if (data.delResult == "false") {//删除失败
-                //alert("对不起，删除用户【"+obj.attr("username")+"】失败");
-                changeDLGContent("对不起，删除用户【" + obj.attr("username") + "】失败");
-            } else if (data.delResult == "notexist") {
-                //alert("对不起，用户【"+obj.attr("username")+"】不存在");
+            if (data.status === "success") {//删除成功：移除删除行
+                if (data.data ===0) {//删除失败
+                    changeDLGContent("对不起，删除用户【" + obj.attr("username") + "】失败");
+                }else {
+                    cancleBtn();
+                    obj.parents("tr").remove();
+                    window.location.href = "/ssm/user/userList";
+                }
+            }  else{
                 changeDLGContent("对不起，用户【" + obj.attr("username") + "】不存在");
             }
         },
@@ -59,7 +60,7 @@ $(function () {
         var obj = $(this);
         // window.location.href =path +"/user/usermodify.html?uid=" + obj.attr("userid");
         // http://localhost:8080/ssm/user/usermodify.html?uid=1
-        window.location.href ="/ssm/user/modifyUser/" + obj.attr("userid");
+        window.location.href = "/ssm/user/modifyUser/" + obj.attr("userid");
     });
 
     $('#no').click(function () {
