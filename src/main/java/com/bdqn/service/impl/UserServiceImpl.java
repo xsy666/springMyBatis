@@ -178,5 +178,19 @@ public class UserServiceImpl implements UserService{
         return userMapper.selectUserById(userId);
     }
 
+    /**
+     * description: TODO 修改用户信息（不包含修改用户图片）
+     * create time: 2019/9/8 22:04
+     * [user]
+     *
+     * @param user
+     * @return java.lang.Integer
+     */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT) //开启事务注解
+    public Integer modifyUser(User user) throws BusinessException {
+        return  userMapper.updateUserByUser(user);
+    }
+
 
 }

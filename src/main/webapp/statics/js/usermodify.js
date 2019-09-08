@@ -6,7 +6,7 @@ var saveBtn = null;
 var backBtn = null;
 
 $(function(){
-	userName = $("#userName");
+	userName = $('#userName');
 	birthday = $("#birthday");
 	phone = $("#phone");
 	userRole = $("#userRole");
@@ -26,18 +26,16 @@ $(function(){
 		// data:{method:"getrolelist"},//请求参数
 		dataType:"json",//ajax接口（请求url）返回的数据类型
 		success:function(data){//data：返回数据（json对象）
-			if(data != null){
+			// console.log(data);
+			if(data.data!= null){
 				var rid = $("#rid").val();
 				userRole.html("");
 				var options = "<option value=\"0\">请选择</option>";
-				for(var i = 0; i < data.length; i++){
-					//alert(data[i].id);
-					//alert(data[i].roleName);
-					console.log(data);
-					if(rid != null && rid != undefined && data[i].id == rid ){
-						options += "<option selected=\"selected\" value=\""+data[i].id+"\" >"+data[i].roleName+"</option>";
+				for(var i = 0; i < data.data.length; i++){
+					if(rid != null && rid != undefined && data.data[i].id == rid ){
+						options += "<option selected=\"selected\" value=\""+data.data[i].id+"\" >"+data.data[i].roleName+"</option>";
 					}else{
-						options += "<option value=\""+data[i].id+"\" >"+data[i].roleName+"</option>";
+						options += "<option value=\""+data.data[i].id+"\" >"+data.data[i].roleName+"</option>";
 					}
 					
 				}

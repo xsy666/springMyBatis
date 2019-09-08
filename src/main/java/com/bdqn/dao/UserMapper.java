@@ -73,4 +73,12 @@ public interface UserMapper {
      * @return com.bdqn.pojo.User
      */
     User selectUserById(@Param("userId") Integer userId);
+
+    /**
+     * description: TODO 修改用户通过用户信息
+     * create time: 2019/9/8 22:07
+     * [user]
+     * @return java.lang.Integer
+     */
+    Integer updateUserByUser(User user);
 }

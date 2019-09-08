@@ -158,11 +158,11 @@ public class UserController {
     }
 
 
-
     /**
      * description: TODO
      * create time: 2019/9/8 20:32
      * [session, request, user, attachs]
+     *
      * @return java.lang.String
      */
     @PostMapping(value = "doUseraddMulti")
@@ -227,12 +227,12 @@ public class UserController {
             user.setWorkPicPath(workPicPath);
             //调用保存用户的业务
             if (userService.addUser1(user)) {
-                return Constants.REDIRECT+"user/userList";//列表页
-            }else{
-                return Constants.REDIRECT+"user/useradd";//重新添加页面
+                return Constants.REDIRECT + "user/userList";//列表页
+            } else {
+                return Constants.REDIRECT + "user/useradd";//重新添加页面
             }
         }
-        return Constants.REDIRECT+"user/useradd";//重新添加页面
+        return Constants.REDIRECT + "user/useradd";//重新添加页面
     }
 
 
@@ -240,6 +240,7 @@ public class UserController {
      * description: TODO
      * create time: 2019/9/8 20:32
      * [userId, model]
+     *
      * @return java.lang.String
      */
     @GetMapping(value = "/viewUser/{userid}")
@@ -250,6 +251,46 @@ public class UserController {
         UserVO userVO = convertFromModel(user);
         model.addAttribute("user", user);
         return "user/userView";
+    }
+
+    /**
+     * description: TODO  跳转到用户修改页面（同时传入相关用户信息）
+     * create time: 2019/9/8 20:32
+     * [userId, model]
+     *
+     * @return java.lang.String
+     */
+    @GetMapping(value = "/modifyUser/{userid}")
+    public String modifyUser(@PathVariable(value = "userid") Integer userId, Model model) throws BusinessException {
+        //调取相应Model 业务逻辑数据
+        User user = userService.findUserById(userId);
+
+        //        需要将UserModel转换成UserVO（供用户来查看的信息）
+        UserVO userVO = convertFromModel(user);
+        model.addAttribute("user", user);
+        return "user/usermodify";
+    }
+
+    /**
+     * description: TODO 处理用户的修改
+     * create time: 2019/9/8 22:08
+     * [user, session]
+     *
+     * @return java.lang.String
+     */
+    @RequestMapping(value = "/usermodifysave", method = RequestMethod.POST)
+    public String usermodifySave(User user, HttpSession session) throws BusinessException {
+
+        //设置谁修改了数据
+        user.setModifyBy(((User) session.getAttribute(Constants.USERSESSION)).getId());
+        user.setModifyDate(new Date());
+//        调用修改用户业务
+        Integer result = userService.modifyUser(user);
+        if (result > 0) {
+            return Constants.REDIRECT + "user/userList";
+        } else {
+            return "user/usermodify";
+        }
     }
 }
 

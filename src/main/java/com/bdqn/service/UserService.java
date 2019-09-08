@@ -88,4 +88,12 @@ public interface UserService {
      * @return com.bdqn.pojo.User
      */
     User findUserById(Integer userId) throws BusinessException;
+
+    /**
+     * description: TODO 修改用户信息（不包含修改用户图片）
+     * create time: 2019/9/8 22:04
+     * [user]
+     * @return java.lang.Integer
+     */
+    Integer modifyUser(User user) throws BusinessException;
 }

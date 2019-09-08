@@ -59,7 +59,7 @@ $(function () {
         var obj = $(this);
         // window.location.href =path +"/user/usermodify.html?uid=" + obj.attr("userid");
         // http://localhost:8080/ssm/user/usermodify.html?uid=1
-        window.location.href ="/ssm/user/usermodify.html?uid=" + obj.attr("userid");
+        window.location.href ="/ssm/user/modifyUser/" + obj.attr("userid");
     });
 
     $('#no').click(function () {
