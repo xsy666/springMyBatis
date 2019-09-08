@@ -14,6 +14,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang.math.RandomUtils;
+import org.apache.log4j.Logger;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +26,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.io.File;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,6 +41,8 @@ import java.util.stream.Collectors;
 @Controller
 @RequestMapping("/user")
 public class UserController {
+
+    private Logger logger = Logger.getLogger(this.getClass());
 
     @Autowired
     private UserService userService;
@@ -109,11 +113,12 @@ public class UserController {
      */
     @PostMapping("/getUserByCode")
     @ResponseBody
-    public Object getUserByCode(@RequestParam(value = "userCode", required = false) String userCode) throws Exception {
+    public Object getUserByCode(@RequestParam(value = "userCode") String userCode) throws Exception {
         User user = userService.findUsersByCode(userCode);
 
         if (user == null) {
-            throw new BusinessException(EmBusinessError.USER_NOT_EXIST);
+//            throw new BusinessException(EmBusinessError.USER_NOT_EXIST);
+            return CommonReturnType.create(20001, "fail");
         }
         //        需要将UserModel转换成UserVO（供用户来查看的信息）
         UserVO userVO = convertFromModel(user);
@@ -154,25 +159,22 @@ public class UserController {
 
 
     /**
-     * description: TODO 处理新增用户（包含上传的证件照和工作照）
-     * create time: 2019/9/7 14:06
-     * [session, request, user, attachs]
-     * @return java.lang.String
+     * description: TODO  处理新增用户（包含上传的证件照和工作照）
+     * create time: 2019/9/8 0008下午 2:16
+     *
+     * @ param [user, session, request, attachs]
+     * @ return java.lang.String
      */
-    @PostMapping(value = "doUseraddMulti")
-    public String doUseraddMulti(HttpSession session,
-                                 HttpServletRequest request,
-                                 User user,
-                                 @RequestParam(value = "attachs", required = false) MultipartFile[] attachs) throws Exception {
+    @PostMapping(value = "/doUseraddMulti")
+    public String addUserSave( User user, HttpSession session, HttpServletRequest request,
+                              @RequestParam(value = "attachs", required = false) MultipartFile[] attachs) throws BusinessException {
         String idPicPath = null;
         String workPicPath = null;
         String errorInfo = null;
-        boolean flag1 = true;//是否上传
-        user.setCreatedBy(((User) session.getAttribute(Constants.USERSESSION)).getId());
-        user.setCreationDate(new Date());
-//        获取上传文件到指定目录的路径
+        boolean flag = true;
 //        String path = request.getSession().getServletContext().getRealPath("statics" + File.separator + "uploadfiles");
-        String path = "D:\\javaWorkSpace\\springMyBatis\\src\\main\\webapp\\uploadfiles";
+        String path = "D:\\mybatisWork\\springMyBatis\\src\\main\\webapp\\uploadFile";
+        logger.info("uploadFile path ============== > " + path);
         for (int i = 0; i < attachs.length; i++) {
             MultipartFile attach = attachs[i];
             if (!attach.isEmpty()) {
@@ -182,48 +184,54 @@ public class UserController {
                     errorInfo = "uploadWpError";
                 }
                 String oldFileName = attach.getOriginalFilename();//原文件名
+                logger.info("uploadFile oldFileName ============== > " + oldFileName);
                 String prefix = FilenameUtils.getExtension(oldFileName);//原文件后缀
-                int filesize = 512000;
-                if (attach.getSize() > filesize) {
+                logger.debug("uploadFile prefix============> " + prefix);
+                int filesize = 500000;
+                logger.debug("uploadFile size============> " + attach.getSize());
+                if (attach.getSize() > filesize) {//上传大小不得超过 500k
                     request.setAttribute(errorInfo, " * 上传大小不得超过 500k");
-                    flag1 = false;
+                    flag = false;
                 } else if (prefix.equalsIgnoreCase("jpg") || prefix.equalsIgnoreCase("png")
                         || prefix.equalsIgnoreCase("jpeg") || prefix.equalsIgnoreCase("pneg")) {//上传图片格式不正确
-                    //重新命名
                     String fileName = System.currentTimeMillis() + RandomUtils.nextInt(1000000) + "_Personal.jpg";
-                    //目标目录
+                    logger.debug("new fileName======== " + attach.getName());
                     File targetFile = new File(path, fileName);
                     if (!targetFile.exists()) {
                         targetFile.mkdirs();
                     }
+                    //保存
                     try {
-                        //保存
                         attach.transferTo(targetFile);
                     } catch (Exception e) {
                         e.printStackTrace();
                         request.setAttribute(errorInfo, " * 上传失败！");
-                        flag1 = false;
+                        flag = false;
                     }
                     if (i == 0) {
                         idPicPath = path + File.separator + fileName;
                     } else if (i == 1) {
                         workPicPath = path + File.separator + fileName;
                     }
+                    logger.debug("idPicPath: " + idPicPath);
+                    logger.debug("workPicPath: " + workPicPath);
+
                 } else {
                     request.setAttribute(errorInfo, " * 上传图片格式不正确");
-                    flag1 = false;
+                    flag = false;
                 }
             }
         }
-        if (flag1) {
+        if (flag) {
+            user.setCreatedBy(((User) session.getAttribute(Constants.USERSESSION)).getId());
+            user.setCreationDate(new Date());
             user.setIdPicPath(idPicPath);
             user.setWorkPicPath(workPicPath);
-            //调用保存用户的业务
             if (userService.addUser1(user)) {
-                return "redirect:/user/userList";//列表页
+                return "user/userList";
             }
         }
-        return "redirect:/user/useradd";//重新添加页面
+        return "user/useradd";
     }
-
 }
+

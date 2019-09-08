@@ -22,7 +22,9 @@ $(function () {
     addBtn = $("#add");
     backBtn = $("#back");
     a_idPicPath = $("#a_idPicPath");
+    errorinfo = $("#errorinfo");
     a_workPicPath = $("#a_workPicPath");
+    errorinfo_wp = $("#errorinfo_wp");
     //初始化的时候，要把所有的提示信息变为：* 以提示必填项，更灵活，不要写在页面上
     userCode.next().html("*");
     userName.next().html("*");
@@ -31,6 +33,20 @@ $(function () {
     phone.next().html("*");
     birthday.next().html("*");
     userRole.next().html("*");
+
+    if(userCode.val()==null || userCode.val()==""){
+        validateTip(userCode.next(), {"color": "#666666"}, "* 用户编码不能为空", false);
+    }
+    if(errorinfo.val() == null || errorinfo.val() == ""){
+        a_idPicPath.next().html("* 上传大小不能超过500K * 上传文件类型必须为：jpg、jpeg、png、pneg");
+    }else{
+        a_idPicPath.next().html(errorinfo.val());
+    }
+    if(errorinfo_wp.val() == null || errorinfo_wp.val() == ""){
+        a_workPicPath.next().html("* 上传大小不能超过500K * 上传文件类型必须为：jpg、jpeg、png、pneg");
+    }else{
+        a_workPicPath.next().html(errorinfo_wp.val());
+    }
 
 
     // http://localhost:8080/ssm/role/roleList ，获取角色名称
@@ -77,17 +93,12 @@ $(function () {
             	// console.log(data);
                 if (data.status === "success") {//账号已存在，错误提示
                     validateTip(userCode.next(), {"color": "red"}, imgNo + " 该用户账号已存在", false);
-                }
-                if (data.status === "fail"){
-					if (data.data.errCode===10001||data.data.errCode===10002){
-						validateTip(userCode.next(), {"color": "red"}, imgNo + " 账号不能为空", false);
-					}else if (data.data.errCode===20001){
+                }if (data.status === "fail"){
 						validateTip(userCode.next(), {"color": "green"}, imgYes + " 该账号可以使用", true);
-					}
 				}
             },
             error: function (data) {//当访问时候，404，500 等非200的错误状态码
-                validateTip(userCode.next(), {"color": "red"}, imgNo + "您访问的页面不存在", false);
+                validateTip(userCode.next(), {"color": "red"}, imgNo + "密码不能为空", false);
             }
         });
 

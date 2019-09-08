@@ -1,4 +1,4 @@
-﻿<%@ page language="java" contentType="text/html; charset=UTF-8"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@include file="/WEB-INF/jsp/common/head.jsp"%>
 
@@ -8,13 +8,12 @@
             <span>用户管理页面 >> 用户添加页面</span>
         </div>
         <div class="providerAdd">
-            <%--<form id="userForm" name="userForm" method="post" action="${pageContext.request.contextPath }/user/doUseradd" enctype="multipart/form-data">--%>
-            <form id="userForm" name="userForm" method="POST" action="${pageContext.request.contextPath }/user/doUseraddMulti" enctype="multipart/form-data">
+            <form id="userForm" name="userForm" method="post" action="${pageContext.request.contextPath }/user/doUseraddMulti" enctype="multipart/form-data">
 				<input type="hidden" name="method" value="add">
                 <!--div的class 为error是验证错误，ok是验证成功-->
                 <div>
                     <label for="userCode">用户编码：</label>
-                    <input type="text" name="userCode" id="userCode" value="" required="required">
+                    <input type="text" name="userCode" id="userCode" value=""> 
 					<!-- 放置提示信息 -->
 					<font color="red"></font>
                 </div>
@@ -58,20 +57,19 @@
                 <div>
                     <label >用户角色：</label>
                     <!-- 列出所有的角色分类 -->
-                    <select name="userRole" id="userRole"></select>
-	            <font color="red"></font>
+					<select name="userRole" id="userRole"></select>
+	        		<font color="red"></font>
                 </div>
                 <div>
-                    <input type="hidden" id="errorinfo" value="${uploadFileError}"/>
-                    <label for="a_idPicPath">证件照</label>
-                    <%--<input type="file" name="a_idPicPath" id="a_idPicPath"/>--%>
-                    <input type="file" name="attachs" id="a_idPicPath"/>
+                	<input type="hidden" id="errorinfo" value="${uploadFileError}"/>
+                    <label for="a_idPicPath">证件照：</label>
+                   	<input type="file" name="attachs" id="a_idPicPath"/>
                     <font color="red"></font>
                 </div>
-                <div>
-                    <input type="hidden" id="uploadWpError" value="${uploadWpError}"/>
-                    <label for="a_workPicPath">工作照</label>
-                    <input type="file" name="attachs" id="a_workPicPath"/>
+               <div>
+                	<input type="hidden" id="errorinfo_wp" value="${uploadWpError}"/>
+                    <label for="a_workPicPath">工作证照片：</label>
+                   	<input type="file" name="attachs" id="a_workPicPath"/>
                     <font color="red"></font>
                 </div>
                 <div class="providerAddBtn">

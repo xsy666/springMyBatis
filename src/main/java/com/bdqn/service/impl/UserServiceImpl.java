@@ -80,6 +80,7 @@ public class UserServiceImpl implements UserService{
      * @return boolean
      */
     @Override
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT)
     public boolean addUser1(User user) throws BusinessException {
         boolean flag = false;
         if (userMapper.insertSelective(user)==1){
