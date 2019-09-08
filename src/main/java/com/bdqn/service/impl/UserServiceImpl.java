@@ -86,7 +86,7 @@ public class UserServiceImpl implements UserService{
         if (userMapper.insertSelective(user)==1){
             flag = true;
         }
-        return false;
+        return flag;
     }
 
     /**
@@ -159,8 +159,23 @@ public class UserServiceImpl implements UserService{
      * @return com.bdqn.pojo.User
      */
     @Override
+    @Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
     public User findUsersByCode(String userCode) throws BusinessException {
         return userMapper.selectUserByCode(userCode);
+    }
+
+    /**
+     * description: TODO 根据ID查找到用户信息
+     * create time: 2019/9/8 20:35
+     * [userId]
+     *
+     * @param userId
+     * @return com.bdqn.pojo.User
+     */
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
+    public User findUserById(Integer userId) throws BusinessException {
+        return userMapper.selectUserById(userId);
     }
 
 

@@ -27,6 +27,8 @@
         <result column="userName" property="userName"/>
         <result column="gender" property="gender"/>
         <result column="phone" property="phone"/>
+        <result column="address" property="address"/>
+        <result column="birthday" property="birthday"/>
         <!--<association property="role"  javaType="Role">-->
         <collection property="role" ofType="Role" resultMap="roleList"/>
         <!--<result column="role_id" property="id"/>
@@ -150,9 +152,6 @@
     <insert id="insertSelective" parameterType="User">
         INSERT INTO `smbms_user`
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                id,
-            </if>
             <if test="userCode != null">
                 userCode,
             </if>
@@ -187,19 +186,13 @@
                 modifyBy,
             </if>
             <if test="modifyDate != null">
-                modifyDate,
+                modifyDate
             </if>
             <if test="idPicPath != null">
-                idPicPath,
-            </if>
-            <if test="workPicPath != null">
-                workPicPath
+                idPicPath
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="id != null">
-                #{id,jdbcType=BIGINT},
-            </if>
             <if test="userCode != null">
                 #{userCode,jdbcType=VARCHAR},
             </if>
@@ -234,14 +227,24 @@
                 #{modifyBy,jdbcType=BIGINT},
             </if>
             <if test="modifyDate != null">
-                #{modifyDate,jdbcType=TIMESTAMP},
+                #{modifyDate,jdbcType=TIMESTAMP}
             </if>
             <if test="idPicPath != null">
-                #{idPicPath,jdbcType=VARCHAR},
-            </if>
-            <if test="workPicPath != null">
-                #{workPicPath,jdbcType=VARCHAR}
+                #{idPicPath,jdbcType=VARCHAR}
             </if>
         </trim>
     </insert>
+
+    <!-- 根据id查找用户信息-->
+    <select id="selectUserById" resultMap="userRoleList1">
+        SELECT
+        *
+        FROM `smbms_user` AS `u`
+        INNER JOIN `smbms_role` AS `r` ON `u`.userRole = `r`.`id`
+        <where>
+            <if test="userId!=null and userId!=''">
+                `u`.`id`= #{userId}
+            </if>
+        </where>
+    </select>
 </mapper>

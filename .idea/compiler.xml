@@ -9,8 +9,5 @@
         <module name="springMyBatis" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="springMyBatis" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>

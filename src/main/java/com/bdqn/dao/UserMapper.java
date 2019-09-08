@@ -65,4 +65,12 @@ public interface UserMapper {
      * @return int
      */
     int insertSelective(User user);
+
+    /**
+     * description: TODO 根据id查找用户信息
+     * create time: 2019/9/8 20:36
+     * [userId]
+     * @return com.bdqn.pojo.User
+     */
+    User selectUserById(@Param("userId") Integer userId);
 }

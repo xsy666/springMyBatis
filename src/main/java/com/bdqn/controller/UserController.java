@@ -158,23 +158,28 @@ public class UserController {
     }
 
 
+
     /**
-     * description: TODO  处理新增用户（包含上传的证件照和工作照）
-     * create time: 2019/9/8 0008下午 2:16
-     *
-     * @ param [user, session, request, attachs]
-     * @ return java.lang.String
+     * description: TODO
+     * create time: 2019/9/8 20:32
+     * [session, request, user, attachs]
+     * @return java.lang.String
      */
-    @PostMapping(value = "/doUseraddMulti")
-    public String addUserSave( User user, HttpSession session, HttpServletRequest request,
-                              @RequestParam(value = "attachs", required = false) MultipartFile[] attachs) throws BusinessException {
+    @PostMapping(value = "doUseraddMulti")
+    public String doUseraddMulti(HttpSession session,
+                                 HttpServletRequest request,
+                                 User user,
+                                 @RequestParam(value = "attachs", required = false) MultipartFile[] attachs) throws IOException, BusinessException {
+
         String idPicPath = null;
         String workPicPath = null;
         String errorInfo = null;
-        boolean flag = true;
+        boolean flag1 = true;//是否上传
+        user.setCreatedBy(((User) session.getAttribute(Constants.USERSESSION)).getId());
+        user.setCreationDate(new Date());
+//        获取上传文件到指定目录的路径
 //        String path = request.getSession().getServletContext().getRealPath("statics" + File.separator + "uploadfiles");
-        String path = "D:\\mybatisWork\\springMyBatis\\src\\main\\webapp\\uploadFile";
-        logger.info("uploadFile path ============== > " + path);
+        String path = "D:\\javaWorkSpace\\springMyBatis\\src\\main\\webapp\\uploadfiles";
         for (int i = 0; i < attachs.length; i++) {
             MultipartFile attach = attachs[i];
             if (!attach.isEmpty()) {
@@ -184,54 +189,67 @@ public class UserController {
                     errorInfo = "uploadWpError";
                 }
                 String oldFileName = attach.getOriginalFilename();//原文件名
-                logger.info("uploadFile oldFileName ============== > " + oldFileName);
                 String prefix = FilenameUtils.getExtension(oldFileName);//原文件后缀
-                logger.debug("uploadFile prefix============> " + prefix);
-                int filesize = 500000;
-                logger.debug("uploadFile size============> " + attach.getSize());
-                if (attach.getSize() > filesize) {//上传大小不得超过 500k
+                int filesize = 512000;
+                if (attach.getSize() > filesize) {
                     request.setAttribute(errorInfo, " * 上传大小不得超过 500k");
-                    flag = false;
+                    flag1 = false;
                 } else if (prefix.equalsIgnoreCase("jpg") || prefix.equalsIgnoreCase("png")
                         || prefix.equalsIgnoreCase("jpeg") || prefix.equalsIgnoreCase("pneg")) {//上传图片格式不正确
+                    //重新命名
                     String fileName = System.currentTimeMillis() + RandomUtils.nextInt(1000000) + "_Personal.jpg";
-                    logger.debug("new fileName======== " + attach.getName());
+                    //目标目录
                     File targetFile = new File(path, fileName);
                     if (!targetFile.exists()) {
                         targetFile.mkdirs();
                     }
-                    //保存
                     try {
+                        //保存
                         attach.transferTo(targetFile);
                     } catch (Exception e) {
                         e.printStackTrace();
                         request.setAttribute(errorInfo, " * 上传失败！");
-                        flag = false;
+                        flag1 = false;
                     }
                     if (i == 0) {
                         idPicPath = path + File.separator + fileName;
                     } else if (i == 1) {
                         workPicPath = path + File.separator + fileName;
                     }
-                    logger.debug("idPicPath: " + idPicPath);
-                    logger.debug("workPicPath: " + workPicPath);
-
                 } else {
                     request.setAttribute(errorInfo, " * 上传图片格式不正确");
-                    flag = false;
+                    flag1 = false;
                 }
             }
         }
-        if (flag) {
-            user.setCreatedBy(((User) session.getAttribute(Constants.USERSESSION)).getId());
-            user.setCreationDate(new Date());
+        if (flag1) {
             user.setIdPicPath(idPicPath);
             user.setWorkPicPath(workPicPath);
+            //调用保存用户的业务
             if (userService.addUser1(user)) {
-                return "user/userList";
+                return Constants.REDIRECT+"user/userList";//列表页
+            }else{
+                return Constants.REDIRECT+"user/useradd";//重新添加页面
             }
         }
-        return "user/useradd";
+        return Constants.REDIRECT+"user/useradd";//重新添加页面
+    }
+
+
+    /**
+     * description: TODO
+     * create time: 2019/9/8 20:32
+     * [userId, model]
+     * @return java.lang.String
+     */
+    @GetMapping(value = "/viewUser/{userid}")
+    public String viewUser(@PathVariable(value = "userid") Integer userId, Model model) throws BusinessException {
+        //调取相应Model 业务逻辑数据
+        User user = userService.findUserById(userId);
+        //        需要将UserModel转换成UserVO（供用户来查看的信息）
+        UserVO userVO = convertFromModel(user);
+        model.addAttribute("user", user);
+        return "user/userView";
     }
 }
 

@@ -80,4 +80,12 @@ public interface UserService {
      * @return com.bdqn.pojo.User
      */
     User findUsersByCode(String userCode)  throws BusinessException;
+
+    /**
+     * description: TODO 根据ID查找到用户信息
+     * create time: 2019/9/8 20:35
+     * [userId]
+     * @return com.bdqn.pojo.User
+     */
+    User findUserById(Integer userId) throws BusinessException;
 }
