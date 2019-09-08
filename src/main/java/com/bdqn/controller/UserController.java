@@ -159,7 +159,7 @@ public class UserController {
 
 
     /**
-     * description: TODO
+     * description: TODO   新增用户的处理（包含用户图片的上传）
      * create time: 2019/9/8 20:32
      * [session, request, user, attachs]
      *
