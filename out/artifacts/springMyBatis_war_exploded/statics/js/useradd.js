@@ -98,7 +98,7 @@ $(function () {
 				}
             },
             error: function (data) {//当访问时候，404，500 等非200的错误状态码
-                validateTip(userCode.next(), {"color": "red"}, imgNo + "密码不能为空", false);
+                validateTip(userPassword.next(), {"color": "red"}, imgNo + "密码不能为空", false);
             }
         });
 

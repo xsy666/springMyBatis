@@ -28,7 +28,7 @@ public class User implements Serializable {
     private String address; //地址
     private Integer userRole;    //用户角色
     private Integer createdBy;   //创建者
-    //    @JSONField(format = "yyyy-MM-dd HH:mm:ss")
+//        @JSONField(format = "yyyy-MM-dd HH:mm:ss")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date creationDate; //创建时间
     private Integer modifyBy;     //更新者

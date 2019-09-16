@@ -10,7 +10,7 @@ function deleteUser(obj) {
         success: function (data) {
             if (data.status === "success") {//删除成功：移除删除行
                 if (data.data ===0) {//删除失败
-                    changeDLGContent("对不起，删除用户【" + obj.attr("username") + "】失败");
+                    changeDLGContent("对不起，删除用户【" + obj.attr("user name") + "】失败");
                 }else {
                     cancleBtn();
                     obj.parents("tr").remove();
@@ -53,7 +53,7 @@ $(function () {
         //将被绑定的元素（a）转换成jquery对象，可以使用jquery方法
         var obj = $(this);
         // window.location.href = path + "/jsp/user.do?method=view&uid=" + obj.attr("userid");
-        window.location.href = "/ssm/user/viewUser/" + obj.attr("userid");
+        window.location.href = "/ssm/user/viewUser/" + obj.attr("us erid");
     });
     // 修改用户
     $(".modifyUser").on("click", function () {

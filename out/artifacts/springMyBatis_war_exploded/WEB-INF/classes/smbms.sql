@@ -124,10 +124,10 @@ CREATE TABLE `smbms_user` (
   `creationDate` datetime DEFAULT NULL COMMENT '创建时间',
   `modifyBy` bigint(20) DEFAULT NULL COMMENT '更新者（userId）',
   `modifyDate` datetime DEFAULT NULL COMMENT '更新时间',
-  `idPicPath` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '证件照',
-  `workPicPath` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '工作照',
+  `idPicPath` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '证件照',
+  `workPicPath` varchar(200) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT '工作照',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 /*Data for the table `smbms_user` */
 

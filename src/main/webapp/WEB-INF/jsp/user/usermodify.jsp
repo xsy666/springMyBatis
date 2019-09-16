@@ -7,7 +7,7 @@
         <span>用户管理页面 >> 用户修改页面</span>
     </div>
     <div class="providerAdd">
-        <form id="userForm" name="userForm" method="POST"
+        <form id="userForm" name="userForm" method="GET"
               action="${pageContext.request.contextPath }/user/usermodifysave">
             <input type="hidden" name="id" value="${user.id }"/>
             <div>

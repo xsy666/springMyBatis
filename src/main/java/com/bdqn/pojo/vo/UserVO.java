@@ -2,6 +2,7 @@ package com.bdqn.pojo.vo;
 
 import com.bdqn.pojo.Address;
 import com.bdqn.pojo.Role;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -20,6 +21,7 @@ public class UserVO implements Serializable{
     private String userCode; //用户编码
     private String userName; //用户名称
     private Integer gender;  //性别
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date birthday;  //出生日期
     private String phone;   //电话
     private String address; //地址

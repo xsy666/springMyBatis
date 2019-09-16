@@ -36,11 +36,13 @@ public class UserServiceImpl implements UserService{
      * return: int
      * Date: 2019/8/28 10:56
      */
+    @Override
     @Transactional(propagation = Propagation.SUPPORTS,isolation = Isolation.DEFAULT,readOnly = true) //开启事务注解
     public int findUserCount() {
         return userMapper.selectCount();
     }
 
+    @Override
     @Transactional(propagation = Propagation.SUPPORTS,isolation = Isolation.DEFAULT,readOnly = true) //开启事务注解
     public List<User> findUserByUserRoleArray(Integer[] userRoles) {
         return userMapper.selectUserByUserRoleArray(userRoles);
@@ -55,6 +57,7 @@ public class UserServiceImpl implements UserService{
      * @param user
      */
 
+    @Override
     @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT) //开启事务注解
     public int addUser(User user) {
         int result =0;
@@ -97,6 +100,7 @@ public class UserServiceImpl implements UserService{
      *
      * @param id
      */
+    @Override
     @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT) //开启事务注解
     public int delUserById(Integer id) {
         int result = 0;
@@ -120,6 +124,7 @@ public class UserServiceImpl implements UserService{
      * @param userCode
      * @param userPassword
      */
+    @Override
     @Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
     public User login(String userCode, String userPassword) {
         User user=userMapper.selectUserByCodeAndPwd(userCode,userPassword);
@@ -135,6 +140,7 @@ public class UserServiceImpl implements UserService{
      * return: java.util.List<com.bdqn.pojo.User>
      * Date: 2019/9/4 16:39
      */
+    @Override
     @Transactional(propagation = Propagation.SUPPORTS,readOnly = true)
     public List<User> findUsers() throws BusinessException {
         return userMapper.selectUsers();

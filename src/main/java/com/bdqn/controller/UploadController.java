@@ -44,7 +44,7 @@ public class UploadController {
      * @return: java.lang.String
      * @Date: 2019/07/12 9:29
      */
-    @RequestMapping(value = "/doUpload", method = RequestMethod.POST)
+    @RequestMapping(value = "/doUpload", method = RequestMethod.GET)
     public String doUploadFile(@RequestParam("file") MultipartFile file) throws IOException {
         if (!file.isEmpty()) {
             log.debug(file.getOriginalFilename());

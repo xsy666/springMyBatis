@@ -165,7 +165,7 @@ public class UserController {
      *
      * @return java.lang.String
      */
-    @PostMapping(value = "doUseraddMulti")
+    @PostMapping("doUseraddMulti")
     public String doUseraddMulti(HttpSession session,
                                  HttpServletRequest request,
                                  User user,
@@ -179,7 +179,7 @@ public class UserController {
         user.setCreationDate(new Date());
 //        获取上传文件到指定目录的路径
 //        String path = request.getSession().getServletContext().getRealPath("statics" + File.separator + "uploadfiles");
-        String path = "D:\\javaWorkSpace\\springMyBatis\\src\\main\\webapp\\uploadfiles";
+        String path = "D:\\supermarket\\springMyBatis\\src\\main\\webapp\\uploadfiles";
         for (int i = 0; i < attachs.length; i++) {
             MultipartFile attach = attachs[i];
             if (!attach.isEmpty()) {
@@ -278,8 +278,8 @@ public class UserController {
      *
      * @return java.lang.String
      */
-    @RequestMapping(value = "/usermodifysave", method = RequestMethod.POST)
-    public String usermodifySave(User user, HttpSession session) throws BusinessException {
+@GetMapping("/usermodifysave")
+public String usermodifySave(User user, HttpSession session) throws BusinessException {
 
         //设置谁修改了数据
         user.setModifyBy(((User) session.getAttribute(Constants.USERSESSION)).getId());

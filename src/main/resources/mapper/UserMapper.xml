@@ -186,10 +186,13 @@
                 modifyBy,
             </if>
             <if test="modifyDate != null">
-                modifyDate
+                modifyDate.
             </if>
             <if test="idPicPath != null">
-                idPicPath
+                idPicPath,
+            </if>
+            <if test="workPicPath != null">
+                workPicPath
             </if>
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -227,10 +230,13 @@
                 #{modifyBy,jdbcType=BIGINT},
             </if>
             <if test="modifyDate != null">
-                #{modifyDate,jdbcType=TIMESTAMP}
+                #{modifyDate,jdbcType=TIMESTAMP},
             </if>
             <if test="idPicPath != null">
-                #{idPicPath,jdbcType=VARCHAR}
+                #{idPicPath,jdbcType=VARCHAR},
+            </if>
+            <if test="workPicPath != null">
+                #{workPicPath,jdbcType=VARCHAR}
             </if>
         </trim>
     </insert>

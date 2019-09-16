@@ -45,6 +45,8 @@
     </mvc:annotation-driven>
     <!-- 静态资源处理， css， js， imgs -->
     <mvc:resources mapping="/statics/**" location="/statics/"/>
+   <!--静态资源由WEB服务器默认的servlet来处理-->
+    <mvc:default-servlet-handler/>
     <!-- 完成视图的对应 -->
     <!-- 对转向页面的路径解析。prefix：前缀， suffix：后缀 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
